@@ -74,6 +74,16 @@ async def list_categories():
     return {"count": len(categories), "categories": sorted(categories)}
 
 
+# ── GET /products/low-stock ──────────────────────────────────────────────────
+@app.get("/products/low-stock")
+async def low_stock_products(
+    threshold: int = Query(default=10, description="Stock max pour être considéré faible")
+):
+    cursor  = products_collection.find({"stock_count": {"$lte": threshold}, "in_stock": True})
+    results = [product_helper(p) async for p in cursor]
+    return {"threshold": threshold, "count": len(results), "products": results}
+
+
 # ── GET /products/{id} ────────────────────────────────────────────────────────
 @app.get("/products/{product_id}")
 async def get_product(product_id: str):

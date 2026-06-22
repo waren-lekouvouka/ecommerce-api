@@ -23,3 +23,4 @@ client = AsyncIOMotorClient(MONGODB_URL)
 # Ces noms doivent correspondre à ce que vous avez créé dans Atlas.
 db                  = client["ecommerce"]
 products_collection = db["products"]
+

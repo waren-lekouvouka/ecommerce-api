@@ -67,6 +67,13 @@ async def search_products(
     return {"query": q, "count": len(results), "products": results}
 
 
+# ── GET /products/categories ──────────────────────────────────────────────────
+@app.get("/products/categories")
+async def list_categories():
+    categories = await products_collection.distinct("category")
+    return {"count": len(categories), "categories": sorted(categories)}
+
+
 # ── GET /products/{id} ────────────────────────────────────────────────────────
 @app.get("/products/{product_id}")
 async def get_product(product_id: str):
